@@ -1,0 +1,23 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    content: "";
+    display: block;
+    background-image: url('../images/acura-nsx-gt3_2560x1440_xtrafondos.com.jpg');
+    background-size: cover;
+    background-position: center;
+}

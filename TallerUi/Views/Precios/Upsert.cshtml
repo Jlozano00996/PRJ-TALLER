@@ -1,0 +1,79 @@
+﻿@using Taller.Domain.ViewModels;
+
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+@model Precio
+
+@{
+    ViewData["Title"] = "Registrar Precio";
+
+    SelectList compras =
+        new SelectList
+        (
+            Model.compras, "CompraId", "Nombre", Model.precio.compra
+        );
+}
+
+
+<h1>Registrar Precio</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Upsert" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="precio.PrecioId" class="form-control" />
+
+            <div class="form-group">
+                <label asp-for="precio.CostoCompra" class="control-label"></label>
+                <input asp-for="precio.CostoCompra" class="form-control" />
+                <span asp-validation-for="precio.CostoCompra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="precio.PrecioVenta" class="control-label"></label>
+                <input asp-for="precio.PrecioVenta" class="form-control" />
+                <span asp-validation-for="precio.PrecioVenta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="precio.MargenGanancias" class="control-label"></label>
+                <input asp-for="precio.MargenGanancias" class="form-control" />
+                <span asp-validation-for="precio.MargenGanancias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="precio.FechaActualizacion" class="control-label">Fecha Actualizacion</label> @*igual pa todas las vistas*@
+                <input asp-for="precio.FechaActualizacion" class="form-control" />
+                <span asp-validation-for="precio.FechaActualizacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="precio.CompraId" class="control-label">Nombre repuesto</label>
+                <select asp-for="precio.CompraId" asp-items="compras" class="form-control"></select>
+                <span asp-validation-for="precio.CompraId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i>Guardar</button>
+                <a id="cancelar" class="btn btn-outline-danger" onclick="cancelar()">
+                    <i class="fa-solid fa-ban"></i>Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function cancelar() {
+        swal({
+            title: "Registrar Precios",
+            text: "Esta seguro de cancelar?",
+            icon: "Warning",
+            buttons: : true,
+            dangerMode: true
+        }).then(
+            (cancelar) => {
+                if (cancelar) {
+                    location.href = '/Index'
+                }
+            }
+        )
+    }
+</script>

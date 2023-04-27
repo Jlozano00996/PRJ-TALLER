@@ -1,0 +1,71 @@
+﻿@using Taller.Domain.ViewModels;
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@model Compra
+
+@{
+    ViewData["Title"] = "Registrar Compras";
+
+    SelectList proveedores =
+        new SelectList
+        (
+            Model.proveedores, "ProveedorId", "Nombre", Model.compra.proveedor
+        );
+}
+
+<h1>Compras</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Upsert" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="compra.CompraId" class="form-control" />
+
+            <div class="form-group">
+                <label asp-for="compra.Nombre" class="control-label"></label>
+                <input asp-for="compra.Nombre" class="form-control" />
+                <span asp-validation-for="compra.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="compra.CantidadComprada" class="control-label"></label>
+                <input asp-for="compra.CantidadComprada" class="form-control" />
+                <span asp-validation-for="compra.CantidadComprada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="compra.FechaCompra" class="control-label"></label>
+                <input asp-for="compra.FechaCompra" class="form-control" />
+                <span asp-validation-for="compra.FechaCompra" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="compra.ProveedorId" class="control-label">Nombre Proveedor</label>
+                <select asp-for="compra.ProveedorId" asp-items="proveedores" class="form-control"></select>
+                <span asp-validation-for="compra.ProveedorId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i>Guardar</button>
+                <button type="button" class="btn btn-outline-danger" onclick="return Cancelar();">
+                    <i class="fa-solid fa-ban"></i>Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function Cancelar() {
+        swal({
+            title: "Registrar Compras",
+            text: "Esta seguro de cancelar?",
+            icon: "Warning",
+            buttons: : true,
+            dangerMode: true
+        }).then(
+            (cancelar) => {
+                if (cancelar) {
+                    location.href = '/Index'
+                }
+            }
+        )
+    }
+</script>

@@ -1,0 +1,122 @@
+﻿@using Taller.Domain.EntityModels;
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@model IEnumerable<Precio>
+@{
+    ViewData["Title"] = "Registrar Precios"; //titulo de la pagina
+}
+<h1 class="display-6">Precios</h1>
+
+<p><a asp-action="Upsert" class="btn btn-outline-success">Registrar Precios</a></p>
+
+<table class="table table-success table-striped table-bordered border-primary" id="descargas">
+    <thead>
+        <tr>
+
+            <th>@Html.DisplayNameFor(model => model.compra.Nombre)</th>
+            <th @Html.DisplayNameFor(model => model.CostoCompra)>Costo Compra</th> @*****asi pa todas las etiquetas acordar*@
+            <th>@Html.DisplayNameFor(model => model.PrecioVenta)</th>
+            <th>@Html.DisplayNameFor(model => model.MargenGanancias)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaActualizacion)</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Precio in Model)
+        {
+            <tr id="@Precio.PrecioId">
+
+                <td>@Html.DisplayFor(modelItem => Precio.compra.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => Precio.CostoCompra)</td>
+                <td>@Html.DisplayFor(modelItem => Precio.PrecioVenta)</td>
+                <td>@Html.DisplayFor(modelItem => Precio.MargenGanancias)</td>
+                <td>@Html.DisplayFor(modelItem => Precio.FechaActualizacion)</td>
+                
+                <td>
+                    <a id="edit" href="/Precios/Upsert/@Precio.PrecioId" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a> |
+                    <a id="delete" class="btn btn-outline-danger" onclick="Borrar(@Precio.PrecioId)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function Borrar(id) {
+        swal({
+            title: "Borrar Precio",
+            text: "Esta seguro de borrar Precio?",
+            icon: "Warning",
+            buttons: true,
+            dangerMode: true
+        }).then(
+            (borrar) => {
+                if (borrar) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/Precio/delete/" + id,
+                        success: function (data) {
+                            if (data.success) {
+                                toastr.success("El Precio ha sido borrada exitosamente.");
+                                $("#" + id).remove();
+                            }
+                            else {
+                                toastr.error(data.message);
+                            }
+                        }
+                    });
+                }
+            }
+        )
+    }
+
+</script>
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            $('#descargas').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.2/i18n/es-ES.json"
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    '', '', ''
+
+
+                    , {
+                        extend: 'pdfHtml5', className: "btn btn-outline-secondary btn-sm",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+
+                    , {
+                        extend: 'excelHtml5', className: "btn btn-outline-secondary btn-sm",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+                    , {
+                        extend: 'csvHtml5', className: "btn btn-outline-secondary btn-sm",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+                    , {
+                        extend: 'print', className: "btn btn-outline-secondary btn-sm",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+                ],
+            });
+        });
+    </script>
+}

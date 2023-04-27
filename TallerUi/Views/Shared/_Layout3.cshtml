@@ -1,0 +1,44 @@
+﻿@model Login
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="~/css/style2.css">
+<!-- Include the above in your HEAD tag -->
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<div class="main">
+    @RenderBody()
+
+    <div class="container">
+        <center>
+            <div class="middle">
+                <div id="login">
+
+                    <form asp-action="Login" method="post">
+                        <p><span class="fa fa-user"></span><input type="text" Placeholder="email" id="email" asp-for="Email" class="form-control" required></p>
+                        <p><span class="fa fa-lock"></span><input type="password" Placeholder="Password" id="password" asp-for="Password" class="form-control" required></p>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Ingresar sesion</button>
+                        </div>
+                    </form>
+
+                    <div class="clearfix"></div>
+
+                </div> <!-- end login -->
+                <div class="logo">
+                    <center>
+                    <a> <img src="/images/logo.png" alt="#" /></a>
+                    </center>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </center>
+    </div>
+
+</div>

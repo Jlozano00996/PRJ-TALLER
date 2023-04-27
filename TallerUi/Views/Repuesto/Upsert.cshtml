@@ -1,0 +1,90 @@
+﻿@using Taller.Domain.ViewModels;
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@model Repuesto
+
+@{
+    ViewData["Title"] = "Registrar Repuesto";
+
+    SelectList compras =
+        new SelectList
+        (
+            Model.compras, "CompraId", "Nombre", Model.repuesto.compra
+        );
+}
+<h1>Actualizar Repuestos</h1>
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="Upsert" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="repuesto.RepuestoId" class="form-control" />
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="repuesto.CompraId" class="control-label"></label>
+                    <select asp-for="repuesto.CompraId" asp-items="compras" class="form-control"></select>
+                    <span asp-validation-for="repuesto.CompraId" class="text-danger"></span>
+                    </br>
+                </div>
+                                <div class="col-md-4">
+                    <label asp-for="repuesto.Descripcion" class="control-label"></label>
+                    <input asp-for="repuesto.Descripcion" placeholder="Descripcion" class="form-control" />
+                    <span asp-validation-for="repuesto.Descripcion" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="repuesto.Fabricante" class="control-label"></label>
+                    <input asp-for="repuesto.Fabricante" placeholder="Fabricante" class="form-control" />
+                    <span asp-validation-for="repuesto.Fabricante" class="text-danger"></span>
+                </div>
+            </div>
+            </br>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="repuesto.ModeloVehiculo" class="control-label"></label>
+                    <input asp-for="repuesto.ModeloVehiculo" placeholder="Modelo Vehiculo" class="form-control" />
+                    <span asp-validation-for="repuesto.ModeloVehiculo" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="repuesto.Anio" class="control-label"></label>
+                    <input asp-for="repuesto.Anio" class="form-control" />
+                    <span asp-validation-for="repuesto.Anio" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="repuesto.NumeroPieza" class="control-label"></label>
+                    <input asp-for="repuesto.NumeroPieza" placeholder="Numero Pieza" class="form-control" />
+                    <span asp-validation-for="repuesto.NumeroPieza" class="text-danger"></span>
+                    </br>
+                </div>
+
+
+
+
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i>Guardar</button>
+                    <button type="button" class="btn btn-outline-danger" onclick="return Cancelar();">
+                        <i class="fa-solid fa-ban"></i>Cancelar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function Cancelar() {
+        swal({
+            title: "Registrar Persona",
+            text: "Esta seguro de cancelar?",
+            icon: "Warning",
+            buttons: : true,
+            dangerMode: true
+        }).then(
+            (cancelar) => {
+                if (cancelar) {
+                    location.href = '/Index'
+                }
+            }
+        )
+    }
+</script>

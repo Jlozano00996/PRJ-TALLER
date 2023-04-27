@@ -1,0 +1,77 @@
+﻿@using Taller.Domain.ViewModels;
+
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@model Inventario
+
+@{
+    ViewData["Title"] = "Registrar Inventario";
+
+    SelectList compras =
+        new SelectList
+        (
+            Model.compras, "CompraId", "Nombre", Model.inventario.compra
+        );
+}
+
+<h1>Registrar Inventario</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Upsert" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="inventario.InventarioId" class="form-control" />
+
+            <div class="form-group">
+                <label asp-for="inventario.CantidadDisponible" class="control-label"></label>
+                <input asp-for="inventario.CantidadDisponible" class="form-control" />
+                <span asp-validation-for="inventario.CantidadDisponible" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="inventario.UbicacionAlmacen" class="control-label"></label>
+                <input asp-for="inventario.UbicacionAlmacen" class="form-control" />
+                <span asp-validation-for="inventario.UbicacionAlmacen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="inventario.FechaLlegada" class="control-label"></label>
+                <input asp-for="inventario.FechaLlegada" class="form-control" />
+                <span asp-validation-for="inventario.FechaLlegada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="inventario.FechaSalida" class="control-label"></label>
+                <input asp-for="inventario.FechaSalida" class="form-control" />
+                <span asp-validation-for="inventario.FechaSalida" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="inventario.CompraId" class="control-label">Nombre repuesto</label>
+                <select asp-for="inventario.CompraId" asp-items="compras" class="form-control"></select>
+                <span asp-validation-for="inventario.CompraId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i>Guardar</button>
+                <button type="button" class="btn btn-outline-danger" onclick="return Cancelar();">
+                    <i class="fa-solid fa-ban"></i>Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function Cancelar() {
+        swal({
+            title: "Registrar Inventario",
+            text: "Esta seguro de cancelar?",
+            icon: "Warning",
+            buttons: : true,
+            dangerMode: true
+        }).then(
+            (cancelar) => {
+                if (cancelar) {
+                    location.href = '/Index'
+                }
+            }
+        )
+    }
+</script>

@@ -1,0 +1,120 @@
+﻿@using Taller.Domain.EntityModels;
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@model IEnumerable<Proveedor>
+@{
+    ViewData["Title"] = "Registrar Proveedor"; //titulo de la pagina
+}
+<h1 class="display-6">Proveedor</h1>
+
+<p><a asp-action="Upsert" class="btn btn-outline-success">Registrar Proveedor</a></p>
+
+<table class="table table-success table-striped table-bordered border-primary"  id="descargas">
+    <thead>
+        <tr>
+
+            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.Direccion)</th>
+            <th>@Html.DisplayNameFor(model => model.Telefono)</th>
+            <th>@Html.DisplayNameFor(model => model.CorreoElectronico)</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var proveedor in Model)
+        {
+            <tr id="@proveedor.ProveedorId">
+
+
+                <td>@Html.DisplayFor(modelItem => proveedor.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => proveedor.Direccion)</td>
+                <td>@Html.DisplayFor(modelItem => proveedor.Telefono)</td>
+                <td>@Html.DisplayFor(modelItem => proveedor.CorreoElectronico)</td>
+                <td>
+                    <a id="edit" href="/Proveedor/Upsert/@proveedor.ProveedorId" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a> |
+                    <a id="delete" class="btn btn-outline-danger" onclick="Borrar(@proveedor.ProveedorId)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function Borrar(id) {
+        swal({
+            title: "Borrar Proveedor",
+            text: "Esta seguro de borrar Repuesto?",
+            icon: "Warning",
+            buttons: true,
+            dangerMode: true
+        }).then(
+            (borrar) => {
+                if (borrar) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/proveedor/delete/" + id,
+                        success: function (data) {
+                            if (data.success) {
+                                toastr.success("El Repuesto ha sido borrada exitosamente.");
+                                $("#" + id).remove();
+                            }
+                            else {
+                                toastr.error(data.message);
+                            }
+                        }
+                    });
+                }
+            }
+        )
+    }
+
+</script>
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            $('#descargas').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.2/i18n/es-ES.json"
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    '', '', ''
+
+
+                    , {
+                        extend: 'pdfHtml5', className: "btn btn-outline-secondary btn-sm",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+
+                    , {
+                        extend: 'excelHtml5', className: "btn btn-outline-secondary btn-sm",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+                    , {
+                        extend: 'csvHtml5', className: "btn btn-outline-secondary btn-sm",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+                    , {
+                        extend: 'print', className: "btn btn-outline-secondary btn-sm",
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+                ],
+            });
+        });
+    </script>
+}
